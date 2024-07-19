@@ -1,0 +1,101 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Importing Libraries
+
+```{r}
+library(ggplot2)
+```
+
+# Loading Data
+
+```{r}
+tesla_data <- read.csv("TSLA.csv")
+```
+
+# Summary
+
+```{r}
+summary(tesla_data)
+```
+```{r}
+head(tesla_data)
+```
+
+
+# Finding Missing Values
+
+```{r}
+is.na(tesla_data)
+```
+
+```{r}
+colSums(is.na(tesla_data))
+```
+
+# Find unique dates in the dataset
+
+```{r}
+unique_dates <- unique(tesla_data$Date)
+print(unique_dates)
+```
+# Find the structure of the dataset
+
+```{r}
+str(tesla_data)
+```
+
+
+# Data Visualization
+
+### Convert the Date column to Date type
+
+```{r}
+tesla_data$Date <- as.Date(tesla_data$Date)
+```
+
+### Scatter plot of Closing Prices over time, colored by Volume
+
+```{r}
+ggplot(tesla_data, aes(x = Date, y = Close, color = Volume)) +
+  geom_point() +
+  labs(title = "Scatter Plot of Closing Prices vs Date Colored by Volume", x = "Date", y = "Closing Price")
+```
+
+###  Box plot of Closing Prices
+
+```{r}
+ggplot(tesla_data, aes(, y = Close)) +
+  geom_boxplot(fill = "darkgreen") +
+  labs(title = "Box Plot of Closing Prices", x = "", y = "Closing Price")
+```
+
+### Histogram of Trading Volume
+
+```{r}
+ggplot(tesla_data, aes(x = Volume)) +
+  geom_histogram( binwidth = 1000000,color = "black") +
+  labs(title = "Histogram of Trading Volume vs Frequency", x = "Volume", y = "Frequency")
+```
+
+# Linear Regression Model
+
+### Create a linear regression model to predict Close price based on Open price and summarize the model
+
+```{r}
+lm_model <- lm(Close ~ Open, data = tesla_data)
+summary(lm_model)
+```
+
+### Scatter plot with regression line
+
+```{r}
+model_visualize = lm(Close ~ Open, data = tesla_data)
+plot(tesla_data$Open, tesla_data$Close)
+title(main ="Linear Regression: Open vs Close Price")
+abline(model_visualize, col = "red")
+```
+
+
